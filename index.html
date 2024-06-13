@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POS_System</title>
     <link rel="stylesheet" href="css/index.css">
+
+    
 </head>
 <body>
     <header>
@@ -85,7 +87,7 @@
         </div>
       
         <div class="tableDive">
-                <table id="data-table">
+                <table id="cus-table">
                     <thead>
                         <tr>
                         <th>Customer ID</th>
@@ -95,8 +97,8 @@
                         </tr>
                     </thead>
         
-                    <tbody class="tableRow">
-                        <tr>
+                    <tbody class="customerTableBody">
+                        <!-- <tr>
                           <td>C-001</td>
                           <td>Chandrapala SK</td>
                           <td>Galle,Yakkalmulla</td>
@@ -107,10 +109,14 @@
                           <td>K. Somapala</td>
                           <td>Colombo,7</td>
                           <td>100000.00</td>
-                      </tr>
+                      </tr> -->
                       </tbody>
                 </table>
           </div>
+
+         
+
+          
             
     </section>
 
@@ -128,28 +134,28 @@
           
                     <div class="input-field">
                     <p>Item code</p>
-                    <input type="text" name="" id="cus-ID">
+                    <input type="text" name="" id="item_code">
                     <p id="error"></p>
                     </div>
                     
                 
                     <div class="input-field">
                     <p>Item Name</p>
-                    <input type="text" name="" id="cus-name">
+                    <input type="text" name="" id="item-name">
                     <p id="error"></p>
                     </div>
                     
                 
                     <div class="input-field">
                     <p>Item qty</p>
-                    <input type="text" name="" id="cus-address">
+                    <input type="text" name="" id="item_qty">
                     <p id="error"></p>
                     </div>
                 
                 
                     <div class="input-field">
                     <p>Unit price</p>
-                    <input type="text" name="" id="cus-salary">
+                    <input type="text" name="" id="unitPrice">
                     <p id="error"></p>
                     </div>
         
@@ -157,7 +163,7 @@
                
           
                 <div class="btn-sec">
-                  <button id="save-cus">Save Item</button>
+                  <button id="save-Item">Save Item</button>
                   <button id="remove-cus">Remove</button>
                   <button id="update-cus">Update</button>
                   <button id="getall-cus">Get All</button>
@@ -177,18 +183,7 @@
                         </thead>
             
                         <tbody class="tableRow">
-                            <tr>
-                              <td>C-001</td>
-                              <td>Chandrapala SK</td>
-                              <td>Galle,Yakkalmulla</td>
-                              <td>50000.00</td>
-                          </tr>
-                          <tr>
-                              <td>C-002</td>
-                              <td>K. Somapala</td>
-                              <td>Colombo,7</td>
-                              <td>100000.00</td>
-                          </tr>
+                           
                           </tbody>
                     </table>
               </div>
@@ -342,43 +337,48 @@
         </div>
     </section>
     
-      </section>
+    </section>
+    <script type="module" src="controller/customerController.js"></script>
 
+    <script type="module" src="controller/itemController.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+          $('#home').show();
+      
+          $('.nav-item').click(function(event){
+              event.preventDefault();
+      
+              $('section').hide();
+      
+              var targetSection = $(this).attr('href');
+      
+              $(targetSection).show();
+              switch(targetSection){
+                  case '#customerSection':
+                      // $('.sectionName').text('Customer Manage');
+                      break;
+                  case '#itemSection':
+                      // $('.sectionName').text('Item Manage');
+                      break;
+                  case '#ordersSection':
+                      // $('.sectionName').text('Order Manage');
+                      break;
+                  default:
+                      // $('.sectionName').text('Home Page');
+              }
+          });
+      });
+      </script>
 
 </body>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-<script>
-  $(document).ready(function(){
-    $('#home').show();
 
-    $('.nav-item').click(function(event){
-        event.preventDefault();
 
-        $('section').hide();
-
-        var targetSection = $(this).attr('href');
-
-        $(targetSection).show();
-        switch(targetSection){
-            case '#customerSection':
-                // $('.sectionName').text('Customer Manage');
-                break;
-            case '#itemSection':
-                // $('.sectionName').text('Item Manage');
-                break;
-            case '#ordersSection':
-                // $('.sectionName').text('Order Manage');
-                break;
-            default:
-                // $('.sectionName').text('Home Page');
-        }
-    });
-});
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-<script src="/controller/CustomerController.js"></script>
+<script src="/controller/CustomerController.js"></script> -->
 
 </html>

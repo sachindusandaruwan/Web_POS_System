@@ -289,17 +289,23 @@ body {
 
 #order-table thead{
   background-color: grey;
+  color: white;
+  
+ 
 }
 
 #order-table thead tr th{
   color: white;
   font-size: 17px;
-  font-weight: 50;
-  font-family:'Times New Roman', Times, serif;
+  /* font-weight: 50;
+  font-family:'Times New Roman', Times, serif; */
+  font-family: monospace;
+  font-size: 18px;
+  
   padding-left: 15px;
 
   height: 3vw;
-  border: 0px solid aliceblue;
+  border: 1px solid aliceblue;
   text-align: left;
 }
 
