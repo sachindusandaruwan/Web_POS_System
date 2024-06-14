@@ -3,7 +3,7 @@ $(document).ready(function(){
     // alert("hiiii mn awa");
     
 })
-loadAllCustomers();
+// loadAllCustomers();
 
 export function loadAllCustomers(){
     let customers = getAllCustomers();
@@ -15,13 +15,15 @@ export function loadAllCustomers(){
     );
 }
 
-
+/////////////////////////////////////////////////////
 
 function saveCustomerDetail(){
     let cusId = $('#customerSection #cus-ID').val();
     let cusName = $('#customerSection #cus-name').val();
     let cusAddress=$('#customerSection #cus-address').val();
     let cusSalary = $('#customerSection #cus-salary').val();
+
+    
 
     // alert(cusId+cusName+cusAddress+cusSalary)
     let customerDetail={
@@ -30,11 +32,83 @@ function saveCustomerDetail(){
         customerAddress : cusAddress,
         customerSalary :cusSalary
     }
-    saveCustomer(customerDetail);
-    clearTable();
-    loadAllCustomers();
-    clearField();
+
+    if(isCustomerValidated(customerDetail)){
+        saveCustomer(customerDetail);
+        clearTable();
+        loadAllCustomers();
+        clearField();
+    }
+
+   
+    // let validateCustomer=validate(customerDetail);
+    // if(validateCustomer){
+    //     saveCustomer(customerDetail);
+    //     clearTable();
+    //     loadAllCustomers();
+    //     clearField();
+    // }
+   
     
+}
+
+function isCustomerValidated(customerDetail){
+    let valid = true;
+    if (customerDetail.customerId.trim() === "") {
+        valid = false;
+        // Display error message for empty customer ID
+        $('#customerSection .invalidCustId').text('Customer ID is required');
+    } else if (!(/^C000[0-9]+$/).test(customerDetail.customerId)) {
+        valid = false;
+        // Display error message for invalid customer ID format
+        $('#customerSection .invalidCustId').text('Invalid Customer ID');
+    } else if(isCustomerExist(customerDetail.customerId)){
+       valid =false;
+       alert('Customer ID already exist');
+        
+    }else{
+        $('#customerSection .invalidCustId').text('');
+    }
+
+    if (customerDetail.customerName.trim() === "") {
+        valid = false;
+        // Display error message for empty customer name
+        $('#customerSection .invalidCustName').text('Customer Name is required');
+    } else {
+        // Clear error message for customer name
+        $('#customerSection .invalidCustName').text('');
+    }
+
+    if (customerDetail.customerAddress.trim() === "" && customerDetail.customerAddress.isInteger()) {
+        valid = false;
+        // Display error message for empty customer address
+        $('#customerSection .invalidCustAddress').text('Customer Address is required');
+    } else {
+        // Clear error message for customer address
+        $('#customerSection .invalidCustAddress').text('');
+    }
+
+    if (customerDetail.customerSalary.trim() === "") {
+        valid = false;
+        // Display error message for empty customer salary
+        $('#customerSection .invalidCustSalary').text('Customer Salary is required');
+    } else if (isNaN(customerDetail.customerSalary)) {
+        valid = false;
+        // Display error message for invalid customer salary format
+        $('#customerSection .invalidCustSalary').text('Invalid Customer Salary');
+    } else {
+        // Clear error message for customer salary
+        $('#customerSection .invalidCustSalary').text('');
+    }
+
+    return valid;
+
+}
+
+function isCustomerExist(customerId) {
+    let customers = getAllCustomers();
+    let customerIds = customers.map(customer => customer.customerId);
+    return customerIds.includes(customerId);
 }
 
 function clearField(){

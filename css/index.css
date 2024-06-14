@@ -11,12 +11,20 @@ header{
     justify-content: space-between;
     align-items: center;
     padding: 0px 20px;
-    background-color:black;
+    /* background-color:black; */
+    background-color: gray;
     height: 50px;
+    border: 1px solid black;
 }
 
 .title{
     color: aliceblue;
+}
+#error{
+  color: red;
+}
+.input-field h5{
+  color: red;
 }
 
 
@@ -33,6 +41,7 @@ header{
 .nav-bar ul li a{
     text-decoration: none;
     color: black;
+    border: 1px solid black;
 }
 
 .nav-item{
@@ -44,6 +53,7 @@ header{
     align-items: center;
     margin: 5px;
 }
+
 section{
 
   font-family: Arial, sans-serif;
@@ -51,6 +61,65 @@ section{
   /* margin: 0; */
   padding: 0;
   display: none;
+}
+
+/* #home img{
+  height: 800px;
+  width: 98vw;
+  object-fit: cover;
+  margin-right: 2px;
+}
+#home div{
+  width: 200px;
+  height: 200px;
+} */
+
+
+body #home {
+  background-image: url('../assets/WhatsApp\ Image\ 2024-06-15\ at\ 00.03.58.jpeg'); /* Ensure the correct path */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  
+  height: 770px; /* Consider using 100vh for full viewport height */
+  
+}
+
+.serviceContainer{
+  padding: 20px;
+  margin: 0px;
+}
+.services-list{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 40px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.services-list div{
+  background: #262626;
+  background-color:white;
+  padding: 40px;
+  font-size: 13px;
+  font-weight: 300;
+  border-radius: 10px;
+ 
+}
+
+.services-list div i{
+  font-size: 50px;
+  margin-bottom: 30px;
+}
+
+.services-list h2{
+  
+}
+.services-list div h2{
+  font-size: 27px;
+  font-weight: 500;
+  margin-bottom: 15px;
 }
 
 
@@ -63,6 +132,7 @@ body {
     padding: 0;
   
     height: 100vh;
+   
     
   }
   
@@ -138,7 +208,7 @@ body {
     font-family: monospace;
     font-size: 18px;
 }
-.tableRow tr td{
+.tableRow tr td, .customerTableBody tr td{
     background-color: #d8d4d42a;
     padding: 10px;
     text-align: center;

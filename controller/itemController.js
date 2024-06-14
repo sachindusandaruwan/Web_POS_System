@@ -8,6 +8,7 @@ loadAllItems();
 
 export function loadAllItems(){
     let items = getAllItems();
+    console.log('Items:',items);
     items.forEach(
         item => {
             // alert("mekata awoo")
@@ -31,31 +32,105 @@ function clearField(){
     $('#itemSection #item-name').val("");
     $('#itemSection #item_qty').val("");
     $('#itemSection #unitPrice').val("");
+
+    $('#itemSection .itemCodeError').text("");
+    $('#itemSection .invalidItemName').text("");
+    $('#itemSection .invalidItemQty').text("");
+    $('#itemSection .invalidItemUnitPrice').text("");    
 }
 
 /////////////////////---------save------//////////////////////////////////
 
 function saveItemDetails(){
-    let itemCode = $('#itemSection #item_code').val();
-    let itemName = $('#itemSection #item-name').val();
-    let itemQty = $('#itemSection #item_qty').val();
-    let itemUnitPrice = $('#itemSection #unitPrice').val();
+    
+    let ItemCode = $('#itemSection #item_code').val();
+    let ItemName = $('#itemSection #item-name').val();
+    let ItemQty = $('#itemSection #item_qty').val();
+    let ItemUnitPrice = $('#itemSection #unitPrice').val();
 
-    alert(itemCode+itemName+itemQty+itemUnitPrice)
-
-    let itemDetals={
-        ItemCode : itemCode,
-        ItemName : itemName,
-        ItemQty : itemQty,
-        ItemUnitPrice : itemUnitPrice
+   
+    let itemDetails={
+        itemCode : ItemCode,
+        itemName : ItemName,
+        itemQty : ItemQty,
+        itemUnitPrice : ItemUnitPrice
     }
 
-    saveItem(itemDetals);
+    if(isItemValidated(itemDetails)){
+        saveItem(itemDetails);
+        clearTable();
+        loadAllItems();
+        clearField();   
+    }
+
+   
 
 }
 $('#save-Item').click(function(){
     saveItemDetails();
 });
+
+
+
+function isItemValidated(itemDetails){
+    let valid = true;
+    if (itemDetails.itemCode.trim() === ""){
+        valid = false;
+     
+        $('#itemSection .itemCodeError').text('Item Code is required');
+
+        } else if (!(/^I-\d{4}$/).test(itemDetails.itemCode)) {
+        valid = false;
+      
+        $('#itemSection .itemCodeError').text('Invalid Item Code');
+        }if(isItemExist(itemDetails.itemCode)){
+            valid = false;
+           
+            $('#itemSection .itemCodeError').text('Item Code already exist');
+    } 
+
+    if (itemDetails.itemName.trim() === "") {
+        valid = false;
+        // Display error message for empty item name
+        $('#itemSection .invalidItemName').text('Item Name is required');
+    } else {
+        $('#itemSection .invalidItemName').text('');
+    }
+
+    if (itemDetails.itemQty.trim() === "") {
+        valid = false;
+        // Display error message for empty item Qty
+        $('#itemSection .invalidItemQty').text('Item Qty is required');
+    } else if (!(/^[0-9]+$/).test(itemDetails.itemQty)) {
+        valid = false;
+        // Display error message for invalid item Qty
+        $('#itemSection .invalidItemQty').text('Invalid Item Qty');
+    } else {
+        $('#itemSection .invalidItemQty').text('');
+    }
+
+    if (itemDetails.itemUnitPrice.trim() === "") {
+        valid = false;
+        $('#itemSection .invalidItemUnitPrice').text('Item Unit Price is required');
+    } else {
+        $('#itemSection .invalidItemUnitPrice').text('');
+    }
+
+    return valid;
+}
+
+function isItemExist(itemCode){
+    let items = getAllItems();
+    let itemExist = false;
+    items.forEach(
+        item => {
+            if(item.itemCode === itemCode){
+                itemExist = true;
+            }
+        }
+    );
+    return itemExist;
+}
 
 ////////////////////////////////////////////////////////////////////////
 

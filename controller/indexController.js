@@ -1,5 +1,6 @@
 import {loadAllCustomers} from '../controller/customerController.js';
 import {loadAllItems,clearTable} from '../controller/itemController.js';
+import{refresh} from'../controller/orderController.js'
     
 $(document).ready(function(){
     $('#home').show();
@@ -15,7 +16,7 @@ $(document).ready(function(){
         switch(targetSection){
             case '#customerSection':
                 // $('.sectionName').text('Customer Manage');
-                // loadAllCustomers();
+                loadAllCustomers();
                 break;
             case '#itemSection':
                 // $('.sectionName').text('Item Manage');
@@ -23,7 +24,9 @@ $(document).ready(function(){
                 loadAllItems();
                 break;
             case '#ordersSection':
+                refresh();
                 // $('.sectionName').text('Order Manage');
+                
                 break;
             default:
                 // $('.sectionName').text('Home Page');

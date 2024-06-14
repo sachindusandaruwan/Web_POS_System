@@ -8,12 +8,14 @@ var tempItem;
 let getItems = [];
 
 $(document).ready(function() {
-    refresh();
+    // alert("11111 hu ")
+    // refresh();
 });
 
-function refresh() {
+export function refresh() {
     $('#ordersSection #OrderId').val(generateId());
     $('#ordersSection #date-picker').val(new Date().toISOString().split('T')[0]);
+    alert("mekada mulin enne")
     loadCustomer();
     loadItems();
 }
@@ -44,10 +46,12 @@ $('#customer-select-field').change(function() {
 
 function loadItems() {
     let allItems = getAllItems();
+    
     let itemCmb = $('#item-select-field');
     let option = [];
     option.unshift('');
     for (let i = 0; i < allItems.length; i++) {
+        
         option.push(allItems[i].itemCode);
     }
 
