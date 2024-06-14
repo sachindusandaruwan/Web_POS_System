@@ -1,11 +1,12 @@
 import { saveItem ,getAllItems,remove,update} from "../model/itemModel.js";
 $(document).ready(function(){
-    // alert("pakaya")
+
 });
 
+clearTable();
 loadAllItems();
 
-function loadAllItems(){
+export function loadAllItems(){
     let items = getAllItems();
     items.forEach(
         item => {
@@ -15,14 +16,13 @@ function loadAllItems(){
         }
     );
 }
-///////////////////////////////////////////////////////////
-function clearTable(){
-    let table = document.getElementById("item-table");
-    let rowCount = table.rows.length;
 
-    for(let i = rowCount - 1; i > 0; i--){
-        table.deleteRow(i);
-    }
+
+///////////////////////////////////////////////////////////
+export function clearTable(){
+    let table = document.getElementById("itemSection").querySelector(".tableDive");
+    let tbody = table.querySelector("tbody");
+    tbody.innerHTML = "";
 }
 /////////////////////////////////////////////////////////////////
 

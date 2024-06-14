@@ -5,7 +5,7 @@ $(document).ready(function(){
 })
 loadAllCustomers();
 
-function loadAllCustomers(){
+export function loadAllCustomers(){
     let customers = getAllCustomers();
     customers.forEach(
         customer => {

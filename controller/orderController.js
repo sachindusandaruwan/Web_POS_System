@@ -1,5 +1,5 @@
 import { getAllCustomers } from "../model/customerModel.js";
-import { getAllItems, update } from "../model/itemModel.js";
+import { getAllItems, update as updateItem } from "../model/itemModel.js";
 import { getAllOrders, saveOrder } from "../model/orderModel.js";
 
 var itemQty;
@@ -127,7 +127,8 @@ $('#ordersSection .add-item-button').click(function() {
             itemName: tempItem.itemName,
             itemPrice: tempItem.itemPrice,
             itemQty: parseInt($('#ordersSection #OrderQuantity').val(), 10),
-            total: parseFloat($('#ordersSection #ItemPrice').val()) * parseInt($('#ordersSection #OrderQuantity').val(), 10)
+            total: parseFloat($('#ordersSection #ItemPrice').val()) * parseInt($('#ordersSection #OrderQuantity').val(), 10),
+            removeButton: '<button class="remove-item-button" onclick="removeItem(\'' + tempItem.itemCode + '\')">Remove</button>'
         };
 
         let orderQty = parseInt($('#ordersSection #OrderQuantity').val(), 10);
@@ -136,14 +137,29 @@ $('#ordersSection .add-item-button').click(function() {
             if ($('#ordersSection #CustomerId').val() !== '' && $('#ordersSection #CustomerName').val() !== null) {
                 if (orderQty > 0) {
                     let item = getItems.find(I => I.itemCode === getItem.itemCode);
-                    if (!item) {
-                        getItems.push(getItem);
-                        loadTable();
-                        clear(1);
-                        setTotal();
-                    } else {
-                        alert('Already Added');
+
+                    try {
+
+                        if (!item) {
+                            getItems.push(getItem);
+                            loadTable();
+                            clear(1);
+                            setTotal();
+                        } else {
+    
+                            item.itemQty += orderQty;
+                            loadTable();
+                            clear(1);
+                            setUpdatedTotal(item);
+                        }
+                        
+                    } catch (error) {
+                        throw error;
+                    }finally{
+                        updateTheItemQty(getItem.itemCode,orderQty);
                     }
+
+                   
                 } else {
                     alert('Invalid Quantity');
                 }
@@ -156,19 +172,87 @@ $('#ordersSection .add-item-button').click(function() {
     }
 });
 
+function updateTheItemQty(itemCode,orderQty){
+    let item = getAllItems().find(I => I.itemCode === itemCode);
+    if (item) {
+        item.itemQty -= orderQty;
+        let index = getAllItems().findIndex(I => I.itemCode === itemCode);
+        if (index !== -1) {
+            updateItem(index, item);
+        }
+    }
+}
+
+function setUpdatedTotal(item) {
+    let total = item.itemPrice * item.itemQty;
+    item.total = total;
+    loadTable();
+    setTotal();
+}
+
+
+
 function loadTable() {
     $('#ordersSection #order-table-body').empty();
     for (let i = 0; i < getItems.length; i++) {
         $('#ordersSection #order-table-body').append(
-            '<tr> ' +
-                '<td>' + getItems[i].itemCode + '</td>' +
-                '<td>' + getItems[i].itemName + '</td>' +
-                '<td>' + getItems[i].itemPrice + '</td>' +
-                '<td>' + getItems[i].itemQty + '</td>' +
-                '<td>' + getItems[i].total + '</td>' +
-            '</tr>'
+            `<tr> 
+            <td>${getItems[i].itemCode}</td>
+            <td>${getItems[i].itemName}</td>
+            <td>${getItems[i].itemPrice}</td>
+            <td>${getItems[i].itemQty}</td>
+            <td>${getItems[i].total}</td>
+            <td>${getItems[i].removeButton}</td>
+            </tr>`
         );
+
+        // Add onclick function for remove button
+        let removeButton = $('#ordersSection #order-table-body tr:last-child .remove-item-button');
+        removeButton.click(function() {
+            let itemCode = $(this).attr('onclick').split("'")[1];
+            let itemQty = getItems.find(I => I.itemCode === itemCode).itemQty;
+            updateTheItemQtyAfterRemove(itemCode,itemQty);
+        });
     }
+}
+
+function updateTheItemQtyAfterRemove(itemCode,itemQty){
+    let item = getAllItems().find(I => I.itemCode === itemCode);
+    if (item) {
+        item.itemQty += itemQty;
+        let index = getAllItems().findIndex(I => I.itemCode === itemCode);
+        if (index !== -1) {
+            updateItem(index, item);
+            
+        }
+        updateCartAftereRemove(itemCode);
+    }
+  
+   
+
+}
+
+
+function updateCartAftereRemove(itemCode){
+    let index = getItems.findIndex(I => I.itemCode === itemCode);
+    if (index !== -1) {
+        getItems.splice(index, 1);
+        loadTable();
+        setTotal();
+    }
+}
+
+
+function removeItem(itemCode,itemQty) {
+    let index = getItems.findIndex(I => I.itemCode === itemCode);
+    console.log(itemQty);
+    if (index !== -1) {
+        getItems.splice(index, 1);
+        updateTheItemQty(itemCode,itemQty);
+        loadTable();
+        setTotal();
+    }
+
 }
 
 function setTotal() {
@@ -207,7 +291,7 @@ $('#ordersSection .purchase-button').click(function() {
             };
 
             saveOrder(Order);
-            updateItemData();
+            // updateItemData();
             getItems = [];
             loadTable();
             clear(2);
