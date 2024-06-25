@@ -6,6 +6,7 @@ $(document).ready(function(){
 // loadAllCustomers();
 
 export function loadAllCustomers(){
+    clearTable();
     let customers = getAllCustomers();
     customers.forEach(
         customer => {
@@ -118,7 +119,7 @@ function clearField(){
     $('#customerSection #cus-salary').val("");
 }
 
-function clearTable(){
+ function clearTable(){
     let table = document.getElementById("cus-table");
     let rowCount = table.rows.length;
 

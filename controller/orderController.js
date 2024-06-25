@@ -3,19 +3,19 @@ import { getAllItems, update as updateItem } from "../model/itemModel.js";
 import { getAllOrders, saveOrder } from "../model/orderModel.js";
 
 var itemQty;
-var orderQty;
+
 var tempItem;
 let getItems = [];
 
 $(document).ready(function() {
     // alert("11111 hu ")
-    // refresh();
+    refresh();
 });
 
 export function refresh() {
     $('#ordersSection #OrderId').val(generateId());
     $('#ordersSection #date-picker').val(new Date().toISOString().split('T')[0]);
-    alert("mekada mulin enne")
+    // alert("mekada mulin enne")
     loadCustomer();
     loadItems();
 }
@@ -104,10 +104,10 @@ function clear(tableCount) {
         $('#ordersSection #ItemPrice').val('');
         $('#ordersSection #ItemQty').val('');
         $('#ordersSection #OrderQuantity').val('');
-        $('#ordersSection .SubTotal').text('');
-        $('#ordersSection .Cash').val('');
+        // $('#ordersSection .SubTotal').text('');
+        $('#ordersSection #Cash').val('');
         $('#ordersSection .Total').text('');
-        $('#ordersSection .Discount').val('');
+        $('#ordersSection #Discount').val('');
         $('#ordersSection #item-select-field').val('');
     } else {
         $('#ordersSection #CustomerId').val('');
@@ -299,8 +299,11 @@ $('#ordersSection .purchase-button').click(function() {
             getItems = [];
             loadTable();
             clear(2);
+            clear(1)
+           
             alert('Order Placed');
-            refresh();
+            // refresh();
+            $('#ordersSection #OrderId').val(generateId());
         } else {
             alert('Invalid Discount');
         }
@@ -309,45 +312,49 @@ $('#ordersSection .purchase-button').click(function() {
     }
 });
 
-function updateItemData() {
-    alert("update wenawada")
-    let items = getAllItems();
-    for (let i = 0; i < getItems.length; i++) {
-        let item = items.find(I => I.itemCode === getItems[i].itemCode);
-        alert("sanuuuuu"+item)
-        if (item) {
-            item.itemQty -= getItems[i].itemQty;
-            alert("mekat awada qty kiyada adu unam"+"  "+item.itemQty)
-            let index = items.findIndex(I => I.itemCode === getItems[i].itemCode);
-            if (index !== -1) {
-                update(index, item);
-            }
-        }
-    }
-}
+// function updateItemData() {
+//     alert("update wenawada")
+//     let items = getAllItems();
+//     for (let i = 0; i < getItems.length; i++) {
+//         let item = items.find(I => I.itemCode === getItems[i].itemCode);
+//         alert("sanuuuuu"+item)
+//         if (item) {
+//             item.itemQty -= getItems[i].itemQty;
+//             alert("mekat awada qty kiyada adu unam"+"  "+item.itemQty)
+//             let index = items.findIndex(I => I.itemCode === getItems[i].itemCode);
+//             if (index !== -1) {
+//                 update(index, item);
+//             }
+//         }
+//     }
+// }
 
-$('.mainTable .tableRows').on('click', 'div', function() {
-    let itemCode = $(this).children('div:eq(0)').text();
-    let itemName = $(this).children('div:eq(1)').text();
-    let price = $(this).children('div:eq(2)').text();
-    let qty = $(this).children('div:eq(3)').text();
 
-    $('#ordersSection #ItemCode').val(itemCode);
-    $('#ordersSection #ItemName').val(itemName);
-    $('#ordersSection #ItemPrice').val(price);
-    $('#ordersSection #OrderQuantity').val(qty);
 
-    $('#ordersSection .add-item-button').text('delete').css('background-color', 'red');
-});
+// $('.mainTable .tableRows').on('click', 'div', function() {
+//     let itemCode = $(this).children('div:eq(0)').text();
+//     let itemName = $(this).children('div:eq(1)').text();
+//     let price = $(this).children('div:eq(2)').text();
+//     let qty = $(this).children('div:eq(3)').text();
 
-function dropItem() {
-    let itemCode = $('#ordersSection #ItemCode').val();
-    let index = getItems.findIndex(I => I.itemCode === itemCode);
-    if (index !== -1) {
-        getItems.splice(index, 1);
-        loadTable();
-        clear(1);
-        setTotal();
-        alert('Item Removed');
-    }
-}
+//     $('#ordersSection #ItemCode').val(itemCode);
+//     $('#ordersSection #ItemName').val(itemName);
+//     $('#ordersSection #ItemPrice').val(price);
+//     $('#ordersSection #OrderQuantity').val(qty);
+
+//     $('#ordersSection .add-item-button').text('delete').css('background-color', 'red');
+// });
+
+
+
+// function dropItem() {
+//     let itemCode = $('#ordersSection #ItemCode').val();
+//     let index = getItems.findIndex(I => I.itemCode === itemCode);
+//     if (index !== -1) {
+//         getItems.splice(index, 1);
+//         loadTable();
+//         clear(1);
+//         setTotal();
+//         alert('Item Removed');
+//     }
+//}

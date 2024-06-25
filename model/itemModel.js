@@ -3,7 +3,7 @@ import{items} from'../database/db.js'
 export function saveItem(item){
     items.push(item);
     // alert("2222")
-    alert(items.length)
+    // alert(items.length)
 }
 
 export function getAllItems(){
@@ -17,7 +17,7 @@ export function remove(index){
 }
 
 export function update(index,item){
-    alert("update ekata awa xx  "+index+item)
+    // alert("update ekata awa xx  "+index+item)
     items[index]=item;
     alert( items[index].itemName)
 }
